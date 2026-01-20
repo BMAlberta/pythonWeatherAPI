@@ -16,11 +16,15 @@ host_network: true
 options:
   broker_host: core-mosquitto
   broker_port: 1883
+  mqtt_username: weather_api
+  mqtt_password: ""
   message_topic: weather
   listen_port: 4000
 
 schema:
   broker_host: str
   broker_port: int
+  mqtt_username: str
+  mqtt_password: password
   message_topic: str
   listen_port: int

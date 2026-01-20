@@ -23,6 +23,9 @@ broker = opts.get("broker_host") or os.environ.get("BROKER_HOST", "core-mosquitt
 port = int(opts.get("broker_port") or os.environ.get("BROKER_PORT", 1883))
 topic = opts.get("message_topic") or os.environ.get("MESSAGE_TOPIC", "weather")
 
+mqtt_username = opts.get("mqtt_username")
+mqtt_password = opts.get("mqtt_password")
+
 listen_port = int(opts.get("listen_port") or os.environ.get("LISTEN_PORT", 4000))
 
 app = flask.Flask(__name__)
@@ -31,7 +34,7 @@ app.config["DEBUG"] = False
 
 def run():
     global client
-    client = MQTTClient(broker, port, topic)
+    client = MQTTClient(broker, port, topic, mqtt_username, mqtt_password)
     from waitress import serve
     serve(app, host="0.0.0.0", port=listen_port)
     # app.run(host="0.0.0.0", port=4000)
