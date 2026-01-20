@@ -1,13 +1,29 @@
-import flask, random, time, logging, os
+import flask, random, time, logging, os, json
 from flask import request, jsonify
 from mqttClient import MQTTClient
 
 # broker = 'cluster01.ad.bmalberta.com'
 # port = 1883
 # topic = "weather/"
-broker = os.environ['BROKER_HOST']
-port = os.environ['BROKER_PORT']
-topic = os.environ['MESSAGE_TOPIC']
+# broker = os.environ['BROKER_HOST']
+# port = os.environ['BROKER_PORT']
+# topic = os.environ['MESSAGE_TOPIC']
+def load_options():
+    # HA add-on runtime config
+    try:
+        with open("/data/options.json", "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        # Fallback for local dev runs
+        return {}
+
+opts = load_options()
+
+broker = opts.get("broker_host") or os.environ.get("BROKER_HOST", "core-mosquitto")
+port = int(opts.get("broker_port") or os.environ.get("BROKER_PORT", 1883))
+topic = opts.get("message_topic") or os.environ.get("MESSAGE_TOPIC", "weather")
+
+listen_port = int(opts.get("listen_port") or os.environ.get("LISTEN_PORT", 4000))
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = False
@@ -17,7 +33,7 @@ def run():
     global client
     client = MQTTClient(broker, port, topic)
     from waitress import serve
-    serve(app, host="0.0.0.0", port=4000)
+    serve(app, host="0.0.0.0", port=listen_port)
     # app.run(host="0.0.0.0", port=4000)
 
 @app.route('/data/report', methods=['GET'])

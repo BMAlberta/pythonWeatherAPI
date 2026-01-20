@@ -1,0 +1,26 @@
+name: "Ambient Weather → MQTT Bridge"
+slug: "ambient_weather_mqtt"
+description: "Receives Ambient Weather WS-2902 reports and publishes to MQTT"
+version: "1.0.0"
+startup: services
+boot: auto
+arch:
+  - aarch64
+  - armv7
+  - armhf
+  - amd64
+init: false
+
+host_network: true
+
+options:
+  broker_host: core-mosquitto
+  broker_port: 1883
+  message_topic: weather
+  listen_port: 4000
+
+schema:
+  broker_host: str
+  broker_port: int
+  message_topic: str
+  listen_port: int
