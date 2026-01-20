@@ -1,7 +1,7 @@
 name: "Ambient Weather → MQTT Bridge"
 slug: "ambient_weather_mqtt"
 description: "Receives Ambient Weather WS-2902 reports and publishes to MQTT"
-version: "1.0.0"
+version: "1.0.1"
 startup: services
 boot: auto
 arch:
