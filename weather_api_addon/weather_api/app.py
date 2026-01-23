@@ -44,7 +44,10 @@ def processsWeatherData():
     publishWeatherStats(request.args)
     return "Success", 201
 
-
+@app.get("/")
+def health():
+    return "OK", 200
+    
 def publishWeatherStats(data):
     
     # Outdoor
