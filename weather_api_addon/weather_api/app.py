@@ -53,8 +53,8 @@ def publishWeatherStats(data):
     # Outdoor
     client.publish('outdoorTemp', data.get('tempf'))
     client.publish('outdoorHumidity', data.get('humidity'));
-    client.publish('outdoorBaromasbin', data.get('baromasbsin'));
-    client.publish('outdoorBaromrelin', data.get('baraomrelin'));
+    client.publish('outdoorBaromasbin', data.get('baromabsin'));
+    client.publish('outdoorBaromrelin', data.get('baromrelin'));
 
     # Indoor
     client.publish('indoorTemp', data.get('tempinf'));
